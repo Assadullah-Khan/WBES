@@ -39,7 +39,7 @@ class UserController extends Controller
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make('$request->password');
+        $user->password = Hash::make($request->password);
         $user->role = $request->role;
         $user->save();
 
@@ -80,7 +80,7 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         $user->name = $request->name;
         $user->email = $request->email;
-        if(isset($request->password)) $user->password = Hash::make('$request->password');
+        if(isset($request->password)) $user->password = Hash::make($request->password);
         $user->role = $request->role;
         $user->save();
 
