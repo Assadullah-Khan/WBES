@@ -20,4 +20,8 @@ class Subject extends Model
     public function exams(){
         return $this->hasMany(Exam::class);
     }
+
+    public function criteria(){
+        return $this->hasOne(Criteria::class);
+    }
 }

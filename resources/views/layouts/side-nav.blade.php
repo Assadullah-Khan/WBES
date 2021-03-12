@@ -14,7 +14,7 @@
         </a>
     @elseif(auth()->user()->role == 'teacher')
         @foreach(auth()->user()->subjects as $subject)
-            <div class="dropdown {{ url()->current() == route('teacher.questions', [$subject->id]) ? 'bg-info' : ' ' }}">
+            <div class="dropdown {{ url()->current() == route('teacher.questions', [$subject->id]) || url()->current() == route('teacher.criteria', [$subject->id]) ? 'bg-info' : ' ' }}">
                 <button class="btn btn-block dropdown-toggle text-left border-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ $subject->label }}
                 </button>
@@ -22,7 +22,9 @@
                     <a class="dropdown-item" href="{{ route('teacher.questions', [$subject->id]) }}">
                         Question Bank Management
                     </a>
-                    <a class="dropdown-item" href="#">Paper Criteria Management</a>
+                    <a class="dropdown-item" href="{{ route('teacher.criteria', [$subject->id]) }}">
+                        Paper Criteria Management
+                    </a>
                     <a class="dropdown-item" href="#">Exam Checking</a>
                     <a class="dropdown-item" href="#">Result Declaration</a>
                 </div>

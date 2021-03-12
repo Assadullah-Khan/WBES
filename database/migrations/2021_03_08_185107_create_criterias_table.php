@@ -15,6 +15,7 @@ class CreateCriteriasTable extends Migration
     {
         Schema::create('criterias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('subject_id');
             $table->unsignedInteger('number_of_mcqs');//of 1 mark each
             $table->unsignedInteger('number_of_3_marks_questions');
             $table->unsignedInteger('number_of_5_marks_questions');
@@ -23,6 +24,11 @@ class CreateCriteriasTable extends Migration
             $table->unsignedInteger('max_duration');//In minutes
             $table->unsignedInteger('pass_percentage');
             $table->timestamps();
+
+            $table->foreign('subject_id')
+                ->references('id')
+                ->on('subjects')
+                ->onDelete('cascade');
         });
     }
 

@@ -9,6 +9,10 @@ class Criteria extends Model
 {
     use HasFactory;
 
+    public function subject(){
+        return $this->hasOne(Subject::class);
+    }
+
     public function exams(){
         return $this->hasMany(Exam::class);
     }

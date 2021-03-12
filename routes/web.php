@@ -67,10 +67,11 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
     Route::post('/{subjectId}/question/create', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.create');
     Route::post('/{subjectId}/question/update/{questionId}', [App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
     Route::post('/{subjectId}/question/delete/{questionId}', [App\Http\Controllers\QuestionController::class, 'destroy'])->name('question.delete');
-//    Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.manage.users');
-//    Route::get('/subjects', [App\Http\Controllers\AdminController::class, 'subjects'])->name('admin.manage.subjects');
-//    Route::get('/teacher-subject', [App\Http\Controllers\AdminController::class, 'teacherSubjectAssignUnassign'])->name('admin.subject.teacher.assign.un.assign');
-//    Route::get('/student-subject', [App\Http\Controllers\AdminController::class, 'studentSubjectAssignUnassign'])->name('admin.subject.student.assign.un.assign');
+
+    Route::get('/{subjectId}/criteria', [App\Http\Controllers\CriteriaController::class, 'getBySubjectId'])->name('teacher.criteria');
+    Route::post('/{subjectId}/criteria/create', [App\Http\Controllers\CriteriaController::class, 'store'])->name('criteria.create');
+    Route::post('/{subjectId}/criteria/update/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'update'])->name('criteria.update');
+    Route::post('/{subjectId}/criteria/delete/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'destroy'])->name('criteria.delete');
 
 });
 
