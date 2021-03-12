@@ -35,6 +35,17 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            @if(auth()->user()->role == 'admin')
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                    Dashboard
+                                </a>
+                            @elseif(auth()->user()->role == 'teacher')
+                                <a class="dropdown-item" href="{{ route('teacher.dashboard') }}">
+                                    Dashboard
+                                </a>
+                            @else
+
+                            @endif
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

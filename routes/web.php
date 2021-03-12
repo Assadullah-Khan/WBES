@@ -14,29 +14,30 @@ use app\http\controllers\database;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
-    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.manage.users');
-    Route::get('/admin/subjects', [App\Http\Controllers\AdminController::class, 'subjects'])->name('admin.manage.subjects');
-    Route::get('/admin/teacher-subject', [App\Http\Controllers\AdminController::class, 'teacherSubjectAssignUnassign'])->name('admin.subject.teacher.assign.un.assign');
+    Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.manage.users');
+    Route::get('/subjects', [App\Http\Controllers\AdminController::class, 'subjects'])->name('admin.manage.subjects');
+    Route::get('/teacher-subject', [App\Http\Controllers\AdminController::class, 'teacherSubjectAssignUnassign'])->name('admin.subject.teacher.assign.un.assign');
+    Route::get('/student-subject', [App\Http\Controllers\AdminController::class, 'studentSubjectAssignUnassign'])->name('admin.subject.student.assign.un.assign');
 
 
-    Route::post('/admin/user/create', [App\Http\Controllers\UserController::class, 'store'])->name('create-user');
-    Route::post('/admin/user/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('update-user');
+    Route::post('/user/create', [App\Http\Controllers\UserController::class, 'store'])->name('create-user');
+    Route::post('/user/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('update-user');
     Route::post('/admin/user/delete/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('delete-user');
 
-    Route::post('/admin/subject/create', [App\Http\Controllers\SubjectController::class, 'store'])->name('create-subject');
-    Route::post('/admin/subject/update/{id}', [App\Http\Controllers\SubjectController::class, 'update'])->name('update-subject');
-    Route::post('/admin/subject/delete/{id}', [App\Http\Controllers\SubjectController::class, 'destroy'])->name('delete-subject');
+    Route::post('/subject/create', [App\Http\Controllers\SubjectController::class, 'store'])->name('create-subject');
+    Route::post('/subject/update/{id}', [App\Http\Controllers\SubjectController::class, 'update'])->name('update-subject');
+    Route::post('/subject/delete/{id}', [App\Http\Controllers\SubjectController::class, 'destroy'])->name('delete-subject');
 
 
-    Route::get('/admin/is-attached/{teacherId}/{subjectId}', function ($teacherId, $subjectId){
+    Route::get('/is-attached/{userId}/{subjectId}', function ($userId, $subjectId){
         $attached = DB::table('subject_user')
-                ->whereUserId($teacherId)
+                ->whereUserId($userId)
                 ->whereSubjectId($subjectId)
                 ->count();
         if ($attached > 0){
@@ -45,17 +46,31 @@ Route::middleware(['auth', 'admin'])->group(function () {
          return 'un-assigned';
     });
 
-    Route::get('/admin/attach/{teacherId}/{subjectId}', function ($teacherId, $subjectId){
-        $teacher = \App\Models\User::find($teacherId);
+    Route::get('/attach/{userId}/{subjectId}', function ($userId, $subjectId){
+        $teacher = \App\Models\User::find($userId);
         $teacher->subjects()->attach($subjectId);
         return true;
     });
 
-    Route::get('/admin/detach/{teacherId}/{subjectId}', function ($teacherId, $subjectId){
-        $teacher = \App\Models\User::find($teacherId);
+    Route::get('/detach/{userId}/{subjectId}', function ($userId, $subjectId){
+        $teacher = \App\Models\User::find($userId);
         $teacher->subjects()->detach($subjectId);
         return true;
     });
+
+});
+
+Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
+
+    Route::get('/dashboard', [App\Http\Controllers\TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/{subjectId}/questions', [App\Http\Controllers\QuestionController::class, 'getBySubjectId'])->name('teacher.questions');
+    Route::post('/{subjectId}/question/create', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.create');
+    Route::post('/{subjectId}/question/update/{questionId}', [App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
+    Route::post('/{subjectId}/question/delete/{questionId}', [App\Http\Controllers\QuestionController::class, 'destroy'])->name('question.delete');
+//    Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.manage.users');
+//    Route::get('/subjects', [App\Http\Controllers\AdminController::class, 'subjects'])->name('admin.manage.subjects');
+//    Route::get('/teacher-subject', [App\Http\Controllers\AdminController::class, 'teacherSubjectAssignUnassign'])->name('admin.subject.teacher.assign.un.assign');
+//    Route::get('/student-subject', [App\Http\Controllers\AdminController::class, 'studentSubjectAssignUnassign'])->name('admin.subject.student.assign.un.assign');
 
 });
 

@@ -34,8 +34,17 @@ class AdminController extends Controller
     {
         $teachers = User::where('role', 'teacher')->get();
         $subjects = Subject::all();
-        return view("admin.layouts.teacher-subject-assign-un-assign")
+        return view("admin.teacher-subject-assign-un-assign")
             ->with('teachers', $teachers)
+            ->with('subjects', $subjects);
+    }
+
+    public function studentSubjectAssignUnassign()
+    {
+        $students = User::where('role', 'student')->get();
+        $subjects = Subject::all();
+        return view("admin.student-subject-assign-un-assign")
+            ->with('students', $students)
             ->with('subjects', $subjects);
     }
 }

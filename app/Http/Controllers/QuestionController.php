@@ -18,6 +18,14 @@ class QuestionController extends Controller
         return view("questions.index")->with("questions", $questions);
     }
 
+    public function getBySubjectId($subjectId)
+    {
+        $questions = Question::where('subject_id', $subjectId)->get();
+        return view("teacher.questions")
+            ->with('subjectId', $subjectId)
+            ->with("questions", $questions);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -34,26 +42,38 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($subjectId, Request $request)
     {
         $question = new Question();
+        $question->subject_id = $subjectId;
+        $question->type = $request->type;
         $question->description = $request->description;
 
-        $options = [];
-        $options['option1'] = $request->option1;
-        $options['option2'] = $request->option2;
-        $options['option3'] = $request->option3;
-        $options['option4'] = $request->option4;
+        if ($question->type == 'mcq'){
+            $options = [];
+            if(isset($request->option1) && $request->option1 != ''){
+                $options['option1'] = $request->option1;
+            }
+            if(isset($request->option1) && $request->option2 != ''){
+                $options['option2'] = $request->option2;
+            }
+            if(isset($request->option1) && $request->option3 != ''){
+                $options['option3'] = $request->option3;
+            }
+            if(isset($request->option1) && $request->option4 != ''){
+                $options['option4'] = $request->option4;
+            }
 
-        $question->options = json_encode($options);
+            $question->options = json_encode($options);
+        }
 
         $question->answer = $request->answer;
 
-        $question->difficulty_level = $request->difficulty_level;
+        $question->marks = $request->marks;
 
-        $question->saveOrFail();
+        $question->save();
 
-        return redirect()->route('list-questions');
+        return redirect()->route('teacher.questions', [$subjectId]);
     }
 
     /**
@@ -85,9 +105,38 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($subjectId, $questionId, Request $request)
     {
-        //
+        $question = Question::find($questionId);
+        $question->subject_id = $subjectId;
+        $question->type = $request->type;
+        $question->description = $request->description;
+
+        if ($question->type == 'mcq'){
+            $options = [];
+            if(isset($request->option1) && $request->option1 != ''){
+                $options['option1'] = $request->option1;
+            }
+            if(isset($request->option1) && $request->option2 != ''){
+                $options['option2'] = $request->option2;
+            }
+            if(isset($request->option1) && $request->option3 != ''){
+                $options['option3'] = $request->option3;
+            }
+            if(isset($request->option1) && $request->option4 != ''){
+                $options['option4'] = $request->option4;
+            }
+
+            $question->options = json_encode($options);
+        }
+
+        $question->answer = $request->answer;
+
+        $question->marks = $request->marks;
+
+        $question->save();
+
+        return redirect()->route('teacher.questions', [$subjectId]);
     }
 
     /**
@@ -96,8 +145,10 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($subjectId, $questionId)
     {
-        //
+        $question = Question::where('id', $questionId)->first();
+        $question->delete();
+        return redirect()->route('teacher.questions', [$subjectId]);
     }
 }

@@ -16,7 +16,7 @@ class TeacherMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->role !== 'admin' || auth()->user()->role !== 'teacher') {
+        if(auth()->user()->role != 'teacher') {
             abort(403, "Access Denied");
         }
         return $next($request);

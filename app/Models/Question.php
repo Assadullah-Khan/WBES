@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
 
     public function subject(){
         return $this->belongsTo(Subject::class);
@@ -17,6 +16,4 @@ class Question extends Model
     public function exams(){
         return $this->belongsToMany(Exam::class);
     }
-=======
->>>>>>> master
 }
