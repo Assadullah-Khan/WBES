@@ -1,6 +1,6 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
-@section('admin-content')
+@section('dashboard-content')
 
     <div class="py-4">
         <h4>

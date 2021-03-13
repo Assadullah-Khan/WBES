@@ -1,6 +1,6 @@
-@extends('teacher.dashboard')
+@extends('layouts.dashboard')
 
-@section('teacher-content')
+@section('dashboard-content')
     <div class="py-4">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createQuestionModal">

@@ -1,6 +1,6 @@
-@extends('teacher.dashboard')
+@extends('layouts.dashboard')
 
-@section('teacher-content')
+@section('dashboard-content')
     <div class="py-4">
         @if(!$criteria)
             <!-- Button trigger modal -->

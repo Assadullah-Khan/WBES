@@ -1,4 +1,4 @@
-<div class="list-group py-4">
+<div class="list-group rounded-0">
     @if(auth()->user()->role == 'admin')
         <a href="{{ route('admin.manage.users') }}" class="list-group-item list-group-item-action {{ url()->current() == route('admin.manage.users') ? 'active' : ' ' }}">
             Manage Users
@@ -7,10 +7,10 @@
             Manage Subjects
         </a>
         <a href="{{ route('admin.subject.teacher.assign.un.assign') }}" class="list-group-item list-group-item-action {{ url()->current() == route('admin.subject.teacher.assign.un.assign') ? 'active' : ' ' }}">
-            Teacher-Subject Assign/Un-Assign
+            Teacher <=> Subject
         </a>
         <a href="{{ route('admin.subject.student.assign.un.assign') }}" class="list-group-item list-group-item-action {{ url()->current() == route('admin.subject.student.assign.un.assign') ? 'active' : ' ' }}">
-            Student-Subject Assign/Un-Assign
+            Student <=> Subject
         </a>
     @elseif(auth()->user()->role == 'teacher')
         @foreach(auth()->user()->subjects as $subject)
