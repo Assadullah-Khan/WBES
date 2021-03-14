@@ -14,7 +14,7 @@
         </a>
     @elseif(auth()->user()->role == 'teacher')
         @foreach(auth()->user()->subjects as $subject)
-            <div class="dropdown {{ url()->current() == route('teacher.questions', [$subject->id]) || url()->current() == route('teacher.criteria', [$subject->id]) ? 'bg-info' : ' ' }}">
+            <div class="dropdown pl-2 {{ url()->current() == route('teacher.questions', [$subject->id]) || url()->current() == route('teacher.criteria', [$subject->id]) ? 'bg-info' : ' ' }}">
                 <button class="btn btn-block dropdown-toggle text-left border-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ $subject->label }}
                 </button>
@@ -31,6 +31,20 @@
             </div>
         @endforeach
     @else
-
+        @foreach(auth()->user()->subjects as $subject)
+            <div class="dropdown pl-2 {{ url()->current() == route('student.exam', [$subject->id]) || url()->current() == route('teacher.result', [$subject->id]) ? 'bg-info' : ' ' }}">
+                <button class="btn btn-block dropdown-toggle text-left border-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ $subject->label }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{ route('student.exam', [$subject->id]) }}">
+                        Exam
+                    </a>
+                    <a class="dropdown-item" href="{{ route('teacher.criteria', [$subject->id]) }}">
+                        Result
+                    </a>
+                </div>
+            </div>
+        @endforeach
     @endif
 </div>

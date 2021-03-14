@@ -16,7 +16,7 @@ class StudentMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->role !== 'admin' || auth()->user()->role !== 'student') {
+        if(auth()->user()->role !== 'student') {
             abort(403, "Access Denied");
         }
         return $next($request);

@@ -17,9 +17,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::view('/{role}/dashboard', 'layouts.dashboard')->middleware('auth')->name('dashboard');
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
-    Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.manage.users');
     Route::get('/subjects', [App\Http\Controllers\AdminController::class, 'subjects'])->name('admin.manage.subjects');
     Route::get('/teacher-subject', [App\Http\Controllers\AdminController::class, 'teacherSubjectAssignUnassign'])->name('admin.subject.teacher.assign.un.assign');
@@ -62,7 +63,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
 
-    Route::get('/dashboard', [App\Http\Controllers\TeacherController::class, 'dashboard'])->name('teacher.dashboard');
     Route::get('/{subjectId}/questions', [App\Http\Controllers\QuestionController::class, 'getBySubjectId'])->name('teacher.questions');
     Route::post('/{subjectId}/question/create', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.create');
     Route::post('/{subjectId}/question/update/{questionId}', [App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
@@ -72,6 +72,20 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
     Route::post('/{subjectId}/criteria/create', [App\Http\Controllers\CriteriaController::class, 'store'])->name('criteria.create');
     Route::post('/{subjectId}/criteria/update/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'update'])->name('criteria.update');
     Route::post('/{subjectId}/criteria/delete/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'destroy'])->name('criteria.delete');
+
+});
+
+Route::middleware(['auth', 'student'])->prefix('student')->group(function () {
+
+    Route::get('/{subjectId}/exam', [App\Http\Controllers\ExamController::class, 'getBySubjectId'])->name('student.exam');
+//    Route::post('/{subjectId}/question/create', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.create');
+//    Route::post('/{subjectId}/question/update/{questionId}', [App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
+//    Route::post('/{subjectId}/question/delete/{questionId}', [App\Http\Controllers\QuestionController::class, 'destroy'])->name('question.delete');
+//
+//    Route::get('/{subjectId}/criteria', [App\Http\Controllers\CriteriaController::class, 'getBySubjectId'])->name('teacher.criteria');
+//    Route::post('/{subjectId}/criteria/create', [App\Http\Controllers\CriteriaController::class, 'store'])->name('criteria.create');
+//    Route::post('/{subjectId}/criteria/update/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'update'])->name('criteria.update');
+//    Route::post('/{subjectId}/criteria/delete/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'destroy'])->name('criteria.delete');
 
 });
 

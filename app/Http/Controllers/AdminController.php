@@ -8,16 +8,6 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function dashboard()
-    {
-        return view("admin.dashboard");
-    }
-
     public function users()
     {
         $users = User::all();
