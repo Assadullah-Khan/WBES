@@ -3,14 +3,32 @@
 @section('dashboard-content')
 
     <div class="py-4">
-        <a class="btn btn-primary {{ $criteria->start_date != date('Y-m-d') || (\Carbon\Carbon::now()->timestamp < \Carbon\Carbon::parse($criteria->start_time)->timestamp-17950 || \Carbon\Carbon::now()->timestamp > \Carbon\Carbon::parse($criteria->start_time)->timestamp-17950+900) ? 'disabled' : '' }}">
+        <a target="_blank" href="{{ route('student.exam.start', [$subjectId]) }}" class="btn btn-primary {{ $exam || $criteria->start_date != date('Y-m-d') || (\Carbon\Carbon::now()->timestamp < \Carbon\Carbon::parse($criteria->start_time)->timestamp-17999 || ($criteria->start_date == date('Y-m-d') && \Carbon\Carbon::now()->timestamp > \Carbon\Carbon::parse($criteria->start_time)->timestamp-17999+900)) ? 'disabled' : '' }}">
             Start Exam
         </a>
         <br>
-        @if(\Carbon\Carbon::parse($criteria->start_time)->timestamp-17950+900)
+        @if($exam)
+            <sm class="text-danger">
+                <small>
+                    You have already attempted this exam.
+                </small>
+            </sm>
+        @elseif($criteria->start_date == date('Y-m-d') && \Carbon\Carbon::now()->timestamp > \Carbon\Carbon::parse($criteria->start_time)->timestamp-17999+900)
             <sm class="text-danger">
                 <small>
                     Oops! Exam expired
+                </small>
+            </sm>
+        @elseif(\Carbon\Carbon::now()->timestamp < \Carbon\Carbon::parse($criteria->start_time)->timestamp-17999)
+            <sm class="text-danger">
+                <small>
+                    Exam will start at the specified time. At specified time, Do refresh this page to start exam.
+                </small>
+            </sm>
+        @elseif($criteria->start_date != date('Y-m-d'))
+            <sm class="text-danger">
+                <small>
+                    Note! Exam is not scheduled for today.
                 </small>
             </sm>
         @endif

@@ -78,6 +78,9 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
 Route::middleware(['auth', 'student'])->prefix('student')->group(function () {
 
     Route::get('/{subjectId}/exam', [App\Http\Controllers\ExamController::class, 'getBySubjectId'])->name('student.exam');
+    Route::get('/{subjectId}/exam/start', [App\Http\Controllers\ExamController::class, 'startExam'])->name('student.exam.start');
+    Route::post('/{subjectId}/{criteriaId}/exam/submit', [App\Http\Controllers\ExamController::class, 'submitExam'])->name('student.exam.submit');
+    Route::get('/{subjectId}/result', [App\Http\Controllers\ExamController::class, 'getBySubjectId'])->name('student.result');
 //    Route::post('/{subjectId}/question/create', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.create');
 //    Route::post('/{subjectId}/question/update/{questionId}', [App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
 //    Route::post('/{subjectId}/question/delete/{questionId}', [App\Http\Controllers\QuestionController::class, 'destroy'])->name('question.delete');

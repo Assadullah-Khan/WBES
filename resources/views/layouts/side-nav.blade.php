@@ -32,7 +32,7 @@
         @endforeach
     @else
         @foreach(auth()->user()->subjects as $subject)
-            <div class="dropdown pl-2 {{ url()->current() == route('student.exam', [$subject->id]) || url()->current() == route('teacher.result', [$subject->id]) ? 'bg-info' : ' ' }}">
+            <div class="dropdown pl-2 {{ url()->current() == route('student.exam', [$subject->id]) || url()->current() == route('student.result', [$subject->id]) ? 'bg-info' : ' ' }}">
                 <button class="btn btn-block dropdown-toggle text-left border-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ $subject->label }}
                 </button>

@@ -14,7 +14,6 @@ class CreateSubjectUserTable extends Migration
     public function up()
     {
         Schema::create('subject_user', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
