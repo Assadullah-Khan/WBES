@@ -73,6 +73,9 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
     Route::post('/{subjectId}/criteria/update/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'update'])->name('criteria.update');
     Route::post('/{subjectId}/criteria/delete/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'destroy'])->name('criteria.delete');
 
+    Route::get('/{subjectId}/exam/check', [App\Http\Controllers\SubjectController::class, 'getBySubjectId'])->name('teacher.check-exam');
+    Route::post('/{subjectId}/{examId}/exam/check', [App\Http\Controllers\ExamController::class, 'checkExam'])->name('teacher.submit-check-exam');
+
 });
 
 Route::middleware(['auth', 'student'])->prefix('student')->group(function () {
@@ -80,15 +83,7 @@ Route::middleware(['auth', 'student'])->prefix('student')->group(function () {
     Route::get('/{subjectId}/exam', [App\Http\Controllers\ExamController::class, 'getBySubjectId'])->name('student.exam');
     Route::get('/{subjectId}/exam/start', [App\Http\Controllers\ExamController::class, 'startExam'])->name('student.exam.start');
     Route::post('/{subjectId}/{criteriaId}/exam/submit', [App\Http\Controllers\ExamController::class, 'submitExam'])->name('student.exam.submit');
-    Route::get('/{subjectId}/result', [App\Http\Controllers\ExamController::class, 'getBySubjectId'])->name('student.result');
-//    Route::post('/{subjectId}/question/create', [App\Http\Controllers\QuestionController::class, 'store'])->name('question.create');
-//    Route::post('/{subjectId}/question/update/{questionId}', [App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
-//    Route::post('/{subjectId}/question/delete/{questionId}', [App\Http\Controllers\QuestionController::class, 'destroy'])->name('question.delete');
-//
-//    Route::get('/{subjectId}/criteria', [App\Http\Controllers\CriteriaController::class, 'getBySubjectId'])->name('teacher.criteria');
-//    Route::post('/{subjectId}/criteria/create', [App\Http\Controllers\CriteriaController::class, 'store'])->name('criteria.create');
-//    Route::post('/{subjectId}/criteria/update/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'update'])->name('criteria.update');
-//    Route::post('/{subjectId}/criteria/delete/{criteriaId}', [App\Http\Controllers\CriteriaController::class, 'destroy'])->name('criteria.delete');
+    Route::get('/{subjectId}/result', [App\Http\Controllers\ExamController::class, 'getResult'])->name('student.result');
 
 });
 

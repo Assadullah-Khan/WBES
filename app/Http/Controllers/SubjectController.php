@@ -17,6 +17,14 @@ class SubjectController extends Controller
         //
     }
 
+    public function getBySubjectId($subjectId)
+    {
+        $subject = Subject::find($subjectId);
+        return view("teacher.check-exam")
+            ->with('subjectId', $subjectId)
+            ->with("subject", $subject);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

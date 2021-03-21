@@ -20,7 +20,7 @@ class CreateExamsTable extends Migration
             $table->unsignedBigInteger('criteria_id');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('total_marks')->default(0);
-            $table->unsignedBigInteger('obtained_marks')->default(0);
+            $table->unsignedBigInteger('obtained_marks')->nullable();
             $table->boolean('is_pass')->default(false);
             $table->timestamps();
 

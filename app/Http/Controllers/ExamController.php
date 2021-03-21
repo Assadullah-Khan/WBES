@@ -74,6 +74,34 @@ class ExamController extends Controller
         return redirect()->route('dashboard', [auth()->user()->role]);
     }
 
+    public function checkExam($subjectId, $examId, Request $request){
+        $exam = Exam::find($examId);
+
+        $obtained_marks = array_sum($request->marks);
+
+        $exam->obtained_marks = $obtained_marks;
+
+        $pass_percentage = $exam->criteria->pass_percentage;
+
+        $percentage = ($exam->obtained_marks/$exam->total_marks)*100;
+
+        $percentage >= $pass_percentage ? $exam->is_pass = true : '';
+
+        $exam->save();
+
+        return redirect()->route('teacher.check-exam', [$subjectId]);
+    }
+
+    public function getResult($subjectId){
+        $exam = Exam::where('user_id', auth()->user()->id)
+            ->where('subject_id', $subjectId)
+            ->first();
+
+        return view('student.result')
+            ->with('subjectId', $subjectId)
+            ->with('exam', $exam);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
