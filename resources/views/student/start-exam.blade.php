@@ -23,8 +23,7 @@
 <div id="app" class="container-fluid">
     <script>
         window.onload = function() {
-{{--            var minute = {{ $criteria->max_duration }} - 1;--}}
-            var minute = 1;
+            var minute = {{ $criteria->max_duration }} - 1;
             var sec = 60;
             setInterval(function() {
                 document.getElementById("timer").innerHTML = minute + " : " + sec;

@@ -14,8 +14,8 @@ use app\http\controllers\database;
 */
 
 Route::get('/', function () {
-    return view('home');
-});
+    return redirect()->route('dashboard', [auth()->user()->role]);
+})->middleware(['auth']);
 
 Route::view('/{role}/dashboard', 'layouts.dashboard')->middleware('auth')->name('dashboard');
 
